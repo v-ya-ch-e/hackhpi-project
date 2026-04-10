@@ -5,16 +5,20 @@
 > Edit these parameters before running this prompt in Cursor.
 
 ```yaml
-team_size: 3
+team_size: 4
 team_skills:
   - "full-stack web development"
   - "Python / data analysis"
-  - "mobile development"
+  - "FastAPI"
+  - "n8n pipelines"
+  - "Integration of AI via API"
+  - "UI/UX design"
   # Add/remove skills as needed
 
 preferred_stack:
-  - "Next.js / React"
+  - "React / Next.js"
   - "Python"
+  - "FastAPI"
   - "AWS (unlimited credits available)"
   # Add/remove technologies as needed
 
@@ -22,7 +26,7 @@ time_budget: "20 hours of coding (23h total minus breaks/planning)"
 
 ambition_level: "high"  # low | medium | high | moonshot
 
-domain_preference: "agriculture"
+domain_preference: "open"
 # Options:
 #   "agriculture" -- farming, food production, agricultural technology
 #   "climate" -- emissions, sustainability, energy, environmental monitoring
@@ -47,7 +51,7 @@ target_user: "any"
 #   "researcher" -- agricultural or climate scientists
 #   "any" -- let the model decide
 
-avoid_duplicates: true
+avoid_duplicates: false
 # When true: inspect all existing ideas in @ideas/challenge-3-open-challenge/
 # before generating. Do NOT produce ideas that overlap in core concept with
 # any existing idea file. Add a "Differentiation" section to each new idea.
@@ -63,8 +67,6 @@ strengths_to_leverage:
   # What's your team uniquely good at?
 
 topics_that_excite_us:
-  - "food waste reduction"
-  - "precision agriculture"
   # What problems do you care about? This helps the model align with your motivation.
 ```
 

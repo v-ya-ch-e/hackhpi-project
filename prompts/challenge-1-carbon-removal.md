@@ -5,16 +5,20 @@
 > Edit these parameters before running this prompt in Cursor.
 
 ```yaml
-team_size: 3
+team_size: 4
 team_skills:
   - "full-stack web development"
   - "Python / data analysis"
+  - "FastAPI"
+  - "n8n pipelines"
+  - "Integration of AI via API"
   - "UI/UX design"
   # Add/remove skills as needed
 
 preferred_stack:
   - "React / Next.js"
   - "Python"
+  - "FastAPI"
   - "AWS (unlimited credits available)"
   # Add/remove technologies as needed
 
@@ -22,26 +26,27 @@ time_budget: "20 hours of coding (23h total minus breaks/planning)"
 
 ambition_level: "high"  # low | medium | high | moonshot
 
-focus_preference: "consumer_experience"
+focus_preference: "hybrid"
 # Options:
 #   "consumer_experience" -- interactive journey explaining carbon removal
 #   "data_validation" -- cross-referencing data sources to detect fraud
 #   "hybrid" -- combine both directions
 #   "open" -- let the model explore freely
 
-avoid_duplicates: true
+avoid_duplicates: false
 # When true: inspect all existing ideas in @ideas/challenge-1-carbon-removal/
 # before generating. Do NOT produce ideas that overlap in core concept with
 # any existing idea file. Add a "Differentiation" section to each new idea.
 # When false: generate freely without checking existing ideas.
 
 constraints:
-  - "Must be demo-able in 3-minute pitch"
+  - "Must be demo-able in 3-minute pitch (+ 3-minute Q&A)"
   - "Must use provided Cula data (API, sensor data, or documentation)"
   # Add custom constraints
 
 strengths_to_leverage:
   - "We have experience with data visualization"
+  - "One of us can deploy quick on AWS and is in common familiar with AWS"
   # What's your team uniquely good at?
 ```
 

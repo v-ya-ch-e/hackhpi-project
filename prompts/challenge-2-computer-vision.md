@@ -5,17 +5,21 @@
 > Edit these parameters before running this prompt in Cursor.
 
 ```yaml
-team_size: 3
+team_size: 4
 team_skills:
-  - "Python / PyTorch"
-  - "computer vision experience"
-  - "web development for demo UI"
+  - "full-stack web development"
+  - "Python / data analysis"
+  - "FastAPI"
+  - "n8n pipelines"
+  - "Integration of AI via API"
+  - "UI/UX design"
   # Add/remove skills as needed
 
 preferred_stack:
-  - "Python / PyTorch or TensorFlow"
-  - "OpenCV"
-  - "AWS (unlimited credits -- GPU instances available)"
+  - "React / Next.js"
+  - "Python"
+  - "FastAPI"
+  - "AWS (unlimited credits available)"
   # Add/remove technologies as needed
 
 time_budget: "20 hours of coding (23h total minus breaks/planning)"
@@ -33,7 +37,7 @@ ml_experience: "intermediate"  # beginner | intermediate | advanced | expert
 
 has_gpu: true  # Do you have access to GPU compute? (AWS credits available)
 
-avoid_duplicates: true
+avoid_duplicates: false
 # When true: inspect all existing ideas in @ideas/challenge-2-computer-vision/
 # before generating. Do NOT produce ideas that overlap in core concept with
 # any existing idea file. Add a "Differentiation" section to each new idea.
