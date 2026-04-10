@@ -2,7 +2,7 @@
 
 ## Configuration
 
-> Fill in these parameters before running. Delete options that don't apply.
+> Edit these parameters before running this prompt in Cursor.
 
 ```yaml
 team_size: 3
@@ -47,6 +47,12 @@ target_user: "any"
 #   "researcher" -- agricultural or climate scientists
 #   "any" -- let the model decide
 
+avoid_duplicates: true
+# When true: inspect all existing ideas in @ideas/challenge-3-open-challenge/
+# before generating. Do NOT produce ideas that overlap in core concept with
+# any existing idea file. Add a "Differentiation" section to each new idea.
+# When false: generate freely without checking existing ideas.
+
 constraints:
   - "Must be demo-able in 3-minute pitch"
   - "Must relate to agriculture and/or climate"
@@ -64,17 +70,22 @@ topics_that_excite_us:
 
 ---
 
-## Prompt
+## Reference Files
 
-Copy everything below this line into your frontier model of choice.
+Read these project files for full context:
+
+- @CLAUDE.md -- hackathon overview, all challenges, partners, timeline, idea framework
+- @sources/hackhpi-notion-export.md -- complete Notion export with challenge details, partner info, available data
+- @sources/hackhpi-website-info.md -- event schedule, FAQ, logistics
+
+If `avoid_duplicates` is `true`, also read:
+- @ideas/challenge-3-open-challenge/ -- all existing idea files to avoid duplication
 
 ---
 
-You are an expert product strategist, startup advisor, and hackathon mentor specializing in agriculture and climate technology. Your task is to generate winning hackathon project ideas for the **Open Challenge** at HackHPI 2026.
+## Task
 
-### Context: The Hackathon
-
-HackHPI 2026 is a 23-hour hackathon (14:00 Friday to 13:00 Saturday) at Hasso Plattner Institute in Potsdam, themed "Agriculture, Climate & Tech." Presentations are 3-minute pitches on Saturday afternoon. The prize is 1000 EUR.
+You are an expert product strategist, startup advisor, and hackathon mentor specializing in agriculture and climate technology. Generate winning hackathon project ideas for the **Open Challenge** at HackHPI 2026.
 
 ### Context: The Open Challenge
 
@@ -86,6 +97,8 @@ This is deliberately open-ended. The judging criteria favor:
 - **Technical execution** -- Is the implementation impressive for 23 hours?
 - **Demo quality** -- Does the pitch tell a compelling story?
 
+For full hackathon context (dates, timeline, partners, prizes), see @CLAUDE.md.
+
 ### Context: Available Resources
 
 - **AWS** -- Virtually unlimited cloud credits (compute, storage, AI services, databases, hosting)
@@ -94,6 +107,8 @@ This is deliberately open-ended. The judging criteria favor:
 - **Cula Technologies** -- Carbon removal data (API with removal activities, sensor data) available even to teams not doing Challenge 1
 - **CLAAS** -- Agricultural machine data potentially available
 - **Mentors and sponsors** on-site for guidance
+
+For full partner and data details, see @sources/hackhpi-notion-export.md.
 
 ### Context: Agriculture & Climate Problem Space
 
@@ -133,9 +148,19 @@ Major unsolved problems at the intersection of agriculture and climate:
 
 ### Context: Your Team
 
-{PASTE YOUR CONFIGURATION HERE -- team_skills, preferred_stack, time_budget, ambition_level, domain_preference, product_type, target_user, constraints, strengths_to_leverage, topics_that_excite_us}
+Use the Configuration section at the top of this file for team parameters.
 
-### Your Task
+### Deduplication
+
+If `avoid_duplicates` is `true` in the configuration:
+- You MUST first read every `.md` file in @ideas/challenge-3-open-challenge/.
+- For each new idea, confirm it does NOT overlap in core concept with any existing idea.
+- Add a **Differentiation** section explaining how the new idea is distinct from all existing ones.
+- If all obvious angles are taken, push into more creative or hybrid territory.
+
+If `avoid_duplicates` is `false`, skip this step entirely.
+
+### Generate Ideas
 
 Generate **5 distinct project ideas** ranked by win probability. Each idea should be meaningfully different in target user, problem space, or technical approach. For each idea, provide:
 
@@ -151,6 +176,7 @@ Generate **5 distinct project ideas** ranked by win probability. Each idea shoul
 10. **"Build something people want" test** -- Who would actually use this after the hackathon? What's the path from demo to real product?
 11. **Risks & mitigations** -- Scope creep, data availability, technical blockers, backup plans
 12. **Win score** -- Rate 1-10 on: Innovation, Feasibility, Demo Impact, Real-World Value, Technical Depth
+13. **Differentiation** -- (only if `avoid_duplicates` is true) How this differs from existing ideas
 
 ### Thinking Process
 
@@ -163,3 +189,15 @@ Before generating ideas, reason through:
 - What's happening right now (April 2026) in agriculture and climate that makes a particular idea timely?
 
 After generating all 5 ideas, write a **comparative analysis** paragraph explaining: which idea has the highest ceiling if execution is perfect, which is the safest bet for a strong demo, and which would be most impressive to the specific sponsors present (QuantCo, Optiver, Cula, CLAAS, AWS).
+
+### Output Instructions
+
+Write each idea as a **separate file** in the `ideas/challenge-3-open-challenge/` directory.
+
+**Naming convention:** `idea-NNN-<slug>.md` where NNN is a zero-padded number continuing from the highest existing file (start at 001 if empty), and `<slug>` is a short kebab-case name derived from the idea name.
+
+**Example:** `ideas/challenge-3-open-challenge/idea-001-farm-to-fork-tracker.md`
+
+Each file should contain the full idea with all 12 (or 13) sections listed above.
+
+After writing all idea files, write the **comparative analysis** as a comment in the chat (not as a file).

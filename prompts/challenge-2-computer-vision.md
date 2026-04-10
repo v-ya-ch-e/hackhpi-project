@@ -2,7 +2,7 @@
 
 ## Configuration
 
-> Fill in these parameters before running. Delete options that don't apply.
+> Edit these parameters before running this prompt in Cursor.
 
 ```yaml
 team_size: 3
@@ -33,6 +33,12 @@ ml_experience: "intermediate"  # beginner | intermediate | advanced | expert
 
 has_gpu: true  # Do you have access to GPU compute? (AWS credits available)
 
+avoid_duplicates: true
+# When true: inspect all existing ideas in @ideas/challenge-2-computer-vision/
+# before generating. Do NOT produce ideas that overlap in core concept with
+# any existing idea file. Add a "Differentiation" section to each new idea.
+# When false: generate freely without checking existing ideas.
+
 constraints:
   - "Must be demo-able in 3-minute pitch"
   - "Must use CLAAS-provided image/video data"
@@ -46,21 +52,28 @@ strengths_to_leverage:
 
 ---
 
-## Prompt
+## Reference Files
 
-Copy everything below this line into your frontier model of choice.
+Read these project files for full context:
+
+- @CLAUDE.md -- hackathon overview, all challenges, partners, timeline, idea framework
+- @sources/hackhpi-notion-export.md -- complete Notion export with challenge details, meeting notes, sensor descriptions
+- @sources/hackhpi-website-info.md -- event schedule, FAQ, logistics
+
+If `avoid_duplicates` is `true`, also read:
+- @ideas/challenge-2-computer-vision/ -- all existing idea files to avoid duplication
 
 ---
 
-You are an expert in computer vision, agricultural technology, and hackathon strategy. Your task is to generate winning hackathon project ideas for the **Autonomy in the Fields** challenge at HackHPI 2026.
+## Task
 
-### Context: The Hackathon
-
-HackHPI 2026 is a 23-hour hackathon (14:00 Friday to 13:00 Saturday) at Hasso Plattner Institute in Potsdam, themed "Agriculture, Climate & Tech." Presentations are 3-minute pitches on Saturday afternoon. The prize is 1000 EUR. AWS provides virtually unlimited cloud credits.
+You are an expert in computer vision, agricultural technology, and hackathon strategy. Generate winning hackathon project ideas for the **Autonomy in the Fields** challenge at HackHPI 2026.
 
 ### Context: The Challenge Sponsor
 
 **CLAAS** (claas.com) is one of the world's leading manufacturers of agricultural machinery -- combine harvesters, forage harvesters, tractors. Their machines currently have ~100 sensors for operations (header height, harvest quality, throughput monitoring). They have autonomous features like trailer-following unloading. Their goal is full autonomy -- replacing the driver's eyes and decision-making.
+
+For full details on CLAAS sensors, autonomous features, and meeting transcript summaries, see @sources/hackhpi-notion-export.md.
 
 ### Context: The Technical Challenge
 
@@ -97,9 +110,19 @@ CLAAS wants teams to build computer vision solutions for autonomous agricultural
 
 ### Context: Your Team
 
-{PASTE YOUR CONFIGURATION HERE -- team_skills, preferred_stack, time_budget, ambition_level, focus_preference, ml_experience, has_gpu, constraints, strengths_to_leverage}
+Use the Configuration section at the top of this file for team parameters.
 
-### Your Task
+### Deduplication
+
+If `avoid_duplicates` is `true` in the configuration:
+- You MUST first read every `.md` file in @ideas/challenge-2-computer-vision/.
+- For each new idea, confirm it does NOT overlap in core concept with any existing idea.
+- Add a **Differentiation** section explaining how the new idea is distinct from all existing ones.
+- If all obvious angles are taken, push into more creative or hybrid territory.
+
+If `avoid_duplicates` is `false`, skip this step entirely.
+
+### Generate Ideas
 
 Generate **5 distinct project ideas** ranked by win probability. For each idea, provide:
 
@@ -115,6 +138,7 @@ Generate **5 distinct project ideas** ranked by win probability. For each idea, 
 10. **Metrics & evaluation** -- mAP, precision/recall targets, FPS benchmarks, false negative analysis (missed persons = safety failure)
 11. **Risks & mitigations** -- Training time, data quality issues, compute limits, backup plans
 12. **Win score** -- Rate 1-10 on: Innovation, Feasibility, Demo Impact, Technical Depth, Safety Relevance
+13. **Differentiation** -- (only if `avoid_duplicates` is true) How this differs from existing ideas
 
 ### Thinking Process
 
@@ -127,3 +151,15 @@ Before generating ideas, reason through:
 - How can LIDAR data complement camera-only approaches if available?
 
 After generating all 5 ideas, write a **comparative analysis** paragraph explaining why your #1 pick is the strongest, how the ideas layer from simple-but-solid to ambitious-but-risky, and which idea you'd pick based on ML experience level (beginner vs. expert team).
+
+### Output Instructions
+
+Write each idea as a **separate file** in the `ideas/challenge-2-computer-vision/` directory.
+
+**Naming convention:** `idea-NNN-<slug>.md` where NNN is a zero-padded number continuing from the highest existing file (start at 001 if empty), and `<slug>` is a short kebab-case name derived from the idea name.
+
+**Example:** `ideas/challenge-2-computer-vision/idea-001-field-guardian.md`
+
+Each file should contain the full idea with all 12 (or 13) sections listed above.
+
+After writing all idea files, write the **comparative analysis** as a comment in the chat (not as a file).

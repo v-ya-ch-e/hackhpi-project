@@ -78,6 +78,32 @@ When brainstorming ideas for any challenge, evaluate each idea against:
 ## Project Structure
 
 - `sources/` -- Raw hackathon information exported from Notion and the website
-- `prompts/` -- Configurable AI prompts for generating ideas per challenge
+- `prompts/` -- Configurable AI prompts for generating ideas per challenge (designed for Cursor)
+- `ideas/` -- Generated idea files, organized by challenge:
+  - `ideas/challenge-1-carbon-removal/` -- Ideas for the Cula carbon removal challenge
+  - `ideas/challenge-2-computer-vision/` -- Ideas for the CLAAS computer vision challenge
+  - `ideas/challenge-3-open-challenge/` -- Ideas for the open agriculture/climate challenge
 - `CLAUDE.md` -- This file; project context for AI assistants
 - `README.md` -- Project overview and quick start
+
+### Idea File Convention
+
+Each idea is stored as a separate markdown file:
+`ideas/challenge-N-<name>/idea-NNN-<slug>.md`
+
+- `NNN` -- zero-padded sequential number (001, 002, ...)
+- `<slug>` -- short kebab-case name from the idea title
+
+Example: `ideas/challenge-1-carbon-removal/idea-001-carbon-journey-explorer.md`
+
+## Workflow (Cursor)
+
+The prompts in `prompts/` are designed to be used directly inside Cursor:
+
+1. Open a prompt file (e.g. `prompts/challenge-1-carbon-removal.md`)
+2. Edit the Configuration YAML at the top (team skills, preferences, `avoid_duplicates`)
+3. Reference the prompt in Cursor chat with `@prompts/challenge-1-carbon-removal.md`
+4. The model reads `@CLAUDE.md`, `@sources/`, and (if dedup is on) existing `@ideas/` files
+5. Ideas are written as separate files into the matching `ideas/challenge-*/` subfolder
+
+Set `avoid_duplicates: true` to make the model inspect existing ideas before generating and ensure no concept overlap. Set it to `false` for unconstrained generation.

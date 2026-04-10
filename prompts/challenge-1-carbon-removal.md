@@ -2,7 +2,7 @@
 
 ## Configuration
 
-> Fill in these parameters before running. Delete options that don't apply.
+> Edit these parameters before running this prompt in Cursor.
 
 ```yaml
 team_size: 3
@@ -29,6 +29,12 @@ focus_preference: "consumer_experience"
 #   "hybrid" -- combine both directions
 #   "open" -- let the model explore freely
 
+avoid_duplicates: true
+# When true: inspect all existing ideas in @ideas/challenge-1-carbon-removal/
+# before generating. Do NOT produce ideas that overlap in core concept with
+# any existing idea file. Add a "Differentiation" section to each new idea.
+# When false: generate freely without checking existing ideas.
+
 constraints:
   - "Must be demo-able in 3-minute pitch"
   - "Must use provided Cula data (API, sensor data, or documentation)"
@@ -41,17 +47,22 @@ strengths_to_leverage:
 
 ---
 
-## Prompt
+## Reference Files
 
-Copy everything below this line into your frontier model of choice.
+Read these project files for full context:
+
+- @CLAUDE.md -- hackathon overview, all challenges, partners, timeline, idea framework
+- @sources/hackhpi-notion-export.md -- complete Notion export with challenge details, meeting notes, available data descriptions
+- @sources/hackhpi-website-info.md -- event schedule, FAQ, logistics
+
+If `avoid_duplicates` is `true`, also read:
+- @ideas/challenge-1-carbon-removal/ -- all existing idea files to avoid duplication
 
 ---
 
-You are an expert hackathon strategist and product designer. Your task is to generate winning hackathon project ideas for the **Carbon Removal Challenge** at HackHPI 2026.
+## Task
 
-### Context: The Hackathon
-
-HackHPI 2026 is a 23-hour hackathon (14:00 Friday to 13:00 Saturday) at Hasso Plattner Institute in Potsdam, themed "Agriculture, Climate & Tech." Presentations are 3-minute pitches on Saturday afternoon. The prize is 1000 EUR.
+You are an expert hackathon strategist and product designer. Generate winning hackathon project ideas for the **Carbon Removal Challenge** at HackHPI 2026.
 
 ### Context: The Challenge Sponsor
 
@@ -60,7 +71,7 @@ HackHPI 2026 is a 23-hour hackathon (14:00 Friday to 13:00 Saturday) at Hasso Pl
 ### Context: The Biochar Carbon Removal Process
 
 1. **Biomass Growth & Harvest** -- Plants absorb CO2 over their lifetime. Agricultural waste (wood chips, crop residues) is collected.
-2. **Pyrolysis** -- Biomass enters a containerized reactor. Heated to 700-800°C without oxygen for ~1 hour. Because there's no oxygen, carbon doesn't combust into CO2 -- it converts to stable biochar.
+2. **Pyrolysis** -- Biomass enters a containerized reactor. Heated to 700-800C without oxygen for ~1 hour. Because there's no oxygen, carbon doesn't combust into CO2 -- it converts to stable biochar.
 3. **Biochar** -- Black, charcoal-like material with carbon locked in aromatic ring structures. Resistant to bacterial decomposition, water, and soil chemistry. Stores carbon for centuries.
 4. **Application** -- Biochar is transported to farms, mixed with animal manure in farm sheds, spread on fields as fertilizer. Holds nutrients near plant roots while permanently sequestering carbon.
 
@@ -71,19 +82,31 @@ HackHPI 2026 is a 23-hour hackathon (14:00 Friday to 13:00 Saturday) at Hasso Pl
 - **Documentation**: Images and videos -- yard surveillance footage of biomass pickup, footage of biochar application to soil.
 - **Fake Data**: Intentionally injected into the dataset for detection testing.
 
+For full details on available data, solution directions, and meeting transcript summaries, see @sources/hackhpi-notion-export.md.
+
 ### Context: What Cula Wants
 
 Two suggested directions (teams may combine or diverge):
 
-**Direction A -- Consumer Experience:** Build an interactive experience that walks a carbon credit buyer through the entire removal journey. Show where the biomass came from (historical land imagery), the pyrolysis process, tracking data, weights, and final application. Make it accessible to someone who has never heard of carbon removal. Current website exists but isn't optimized for general audiences.
+**Direction A -- Consumer Experience:** Build an interactive experience that walks a carbon credit buyer through the entire removal journey. Show where the biomass came from (historical land imagery), the pyrolysis process, tracking data, weights, and final application. Make it accessible to someone who has never heard of carbon removal.
 
-**Direction B -- Data Validation:** Build a system that cross-references the manually entered operational data against sensor readings, documentation (images, PDFs, videos), and physical constraints. Flag inconsistencies. Detect the injected fake data. This is about trust and verification in carbon markets.
+**Direction B -- Data Validation:** Build a system that cross-references the manually entered operational data against sensor readings, documentation (images, PDFs, videos), and physical constraints. Flag inconsistencies. Detect the injected fake data.
 
 ### Context: Your Team
 
-{PASTE YOUR CONFIGURATION HERE -- team_skills, preferred_stack, time_budget, ambition_level, focus_preference, constraints, strengths_to_leverage}
+Use the Configuration section at the top of this file for team parameters.
 
-### Your Task
+### Deduplication
+
+If `avoid_duplicates` is `true` in the configuration:
+- You MUST first read every `.md` file in @ideas/challenge-1-carbon-removal/.
+- For each new idea, confirm it does NOT overlap in core concept with any existing idea.
+- Add a **Differentiation** section explaining how the new idea is distinct from all existing ones.
+- If all obvious angles are taken, push into more creative or hybrid territory.
+
+If `avoid_duplicates` is `false`, skip this step entirely.
+
+### Generate Ideas
 
 Generate **5 distinct project ideas** ranked by win probability. For each idea, provide:
 
@@ -98,6 +121,7 @@ Generate **5 distinct project ideas** ranked by win probability. For each idea, 
 9. **Demo script** -- What the 3-minute pitch looks like (opening hook, live demo flow, closing impact statement)
 10. **Risks & mitigations** -- What could go wrong and backup plans
 11. **Win score** -- Rate 1-10 on: Innovation, Feasibility, Demo Impact, Technical Depth, Problem-Solution Fit
+12. **Differentiation** -- (only if `avoid_duplicates` is true) How this differs from existing ideas
 
 ### Thinking Process
 
@@ -109,3 +133,15 @@ Before generating ideas, reason through:
 - What's the emotional hook that connects carbon removal to people's daily lives?
 
 After generating all 5 ideas, write a **comparative analysis** paragraph explaining why your #1 pick is the strongest, what trade-offs exist between the top 3, and under which team conditions you'd recommend a different ranking.
+
+### Output Instructions
+
+Write each idea as a **separate file** in the `ideas/challenge-1-carbon-removal/` directory.
+
+**Naming convention:** `idea-NNN-<slug>.md` where NNN is a zero-padded number continuing from the highest existing file (start at 001 if empty), and `<slug>` is a short kebab-case name derived from the idea name.
+
+**Example:** `ideas/challenge-1-carbon-removal/idea-001-carbon-journey-explorer.md`
+
+Each file should contain the full idea with all 11 (or 12) sections listed above.
+
+After writing all idea files, write the **comparative analysis** as a comment in the chat (not as a file).
